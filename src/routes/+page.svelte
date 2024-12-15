@@ -1,15 +1,7 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import ml, { type MapLayerMouseEvent } from 'maplibre-gl';
-	import {
-		MapLibre,
-		NavigationControl,
-		ScaleControl,
-		GeolocateControl,
-		GeoJSONSource,
-		FillLayer,
-		LineLayer
-	} from 'svelte-maplibre-gl';
+	import { MapLibre, NavigationControl, ScaleControl, GeolocateControl } from 'svelte-maplibre-gl';
 	import { cloneDeep } from 'es-toolkit';
 	import type { Polygon } from 'geojson';
 	import { center } from '@turf/center';
@@ -92,29 +84,29 @@
 		draggedPolygon = e.features[0];
 	};
 	const fillLayerOnMouseMove = (e: MapLayerMouseEvent) => {
-			if (
-				!dragging ||
-				typeof draggedPolygon === 'undefined' ||
-				typeof draggingStartPoint === 'undefined'
-			)
-				return;
-			if (typeof map === 'undefined') return;
-			const deltaLat = e.lngLat.lat - draggingStartPoint.lat;
-			const deltaLng = e.lngLat.lng - draggingStartPoint.lng;
-			const updatedCoord = draggedPolygon.geometry.coordinates[0].map(([lng, lat]) => [
-				lng + deltaLng,
-				lat + deltaLat
-			]);
-			draggingStartPoint = e.lngLat;
-			draggedPolygon.geometry.coordinates[0] = updatedCoord;
-			const src = map.getSource(draggedPolygon.properties["index"]);
-			if (typeof src === 'undefined') return;
-			src.setData({
-				type: 'FeatureCollection',
-				features: [draggedPolygon]
-			});
-            return
-		};
+		if (
+			!dragging ||
+			typeof draggedPolygon === 'undefined' ||
+			typeof draggingStartPoint === 'undefined'
+		)
+			return;
+		if (typeof map === 'undefined') return;
+		const deltaLat = e.lngLat.lat - draggingStartPoint.lat;
+		const deltaLng = e.lngLat.lng - draggingStartPoint.lng;
+		const updatedCoord = draggedPolygon.geometry.coordinates[0].map(([lng, lat]) => [
+			lng + deltaLng,
+			lat + deltaLat
+		]);
+		draggingStartPoint = e.lngLat;
+		draggedPolygon.geometry.coordinates[0] = updatedCoord;
+		const src = map.getSource(draggedPolygon.properties['index']);
+		if (typeof src === 'undefined') return;
+		src.setData({
+			type: 'FeatureCollection',
+			features: [draggedPolygon]
+		});
+		return;
+	};
 	const fillLayerOnMouseUp = () => {
 		if (!dragging) return;
 		if (typeof map === 'undefined') return;
@@ -123,6 +115,7 @@
 		map.getCanvas().style.cursor = '';
 		draggedPolygon = undefined;
 	};
+	const title = 'tokyodome-scaler';
 </script>
 
 <div class="fixed bottom-0 top-14">
@@ -147,3 +140,20 @@
 		}}>more tokyodome!</button
 	>
 </div>
+
+<svelte:head>
+	<title>{title}</title>
+	<meta name="og:title" content={title} />
+	<meta name="og:type" content="website" />
+	<meta name="og:url" content={base} />
+	<meta name="og:locale" content="ja-JP" />
+	<meta name="og:description" content="そこのお前！東京ドーム1個の面積は東京ドーム1個分だぜ！" />
+	<meta name="twitter:title" content={title} />
+	<meta
+		name="twitter:description"
+		content="そこのお前！東京ドーム1個の面積は東京ドーム1個分だぜ！"
+	/>
+	<meta name="twitter:creators" content="@eniehack" />
+	<meta name="twitter:card" content="summary" />
+	<meta name="fediverse:creator" content="@eniehack@mstdn.sublimer.me" />
+</svelte:head>
