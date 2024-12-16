@@ -131,7 +131,23 @@
 		<GeolocateControl trackUserLocation={true} />
 	</MapLibre>
 </div>
-
+<header>
+	<div class="flex justify-between p-4 dark:bg-slate-800">
+		<h1>
+			<a href="/" class="hover:underline dark:text-neutral-200">東京ドーム単位系</a>
+		</h1>
+		<nav class="flex space-x-4">
+			<a
+				href="https://github.com/eniehack/tokyodome-scaler?tab=readme-ov-file#license"
+				class="hover:underline dark:text-neutral-200">ライセンス</a
+			>
+			<a
+				href="https://github.com/eniehack/tokyodome-scaler"
+				class="hover:underline dark:text-neutral-200">github</a
+			>
+		</nav>
+	</div>
+</header>
 <div class="absolute bottom-10 left-2 rounded-lg bg-white p-2">
 	<button
 		class="bg-green-600 rounded p-2 m-2 flex"
