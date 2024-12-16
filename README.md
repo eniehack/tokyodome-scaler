@@ -1,38 +1,31 @@
-# sv
+# 東京ドーム単位系
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## License
 
-## Creating a project
+東京ドームの形などのデータ（`static/tokyodome.json`）は[overpass turbo](https://overpass-turbo.eu/)経由で[OpenStreetMap](https://openstreetmap.org)のデータを取得し加工したデータです。このデータは[ODbL](https://opendatacommons.org/licenses/odbl/1-0/)でライセンスされます。[OpenStreetMapによる説明](https://www.openstreetmap.org/copyright)も確認してください。
 
-If you're seeing this, you've probably already done this step. Congrats!
+また、`src/routes/+page.svelte`には[bootstrap icons](https://icons.getbootstrap.com/)から取得したファイルが含まれています。
 
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
 ```
+The MIT License (MIT)
 
-## Developing
+Copyright (c) 2019-2024 The Bootstrap Authors
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-```bash
-npm run dev
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
