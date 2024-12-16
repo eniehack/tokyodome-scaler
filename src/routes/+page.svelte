@@ -46,13 +46,13 @@
 				lat + mapCenter.lat
 			]);
 		const name = `tokyodome${index}`;
-		const sourceLayerName = `src_${name}`;
-		clonedCenteredTokyoDome.features[0].properties['index'] = sourceLayerName;
-		map.addSource(sourceLayerName, { type: 'geojson', data: clonedCenteredTokyoDome });
+		const sourceName = `${name}_src`;
+		clonedCenteredTokyoDome.features[0].properties['index'] = sourceName;
+		map.addSource(sourceName, { type: 'geojson', data: clonedCenteredTokyoDome });
 		const fillLayerName = `${name}_filllayer`;
 		map.addLayer({
 			id: fillLayerName,
-			source: `src_${name}`,
+			source: sourceName,
 			type: 'fill',
 			paint: {
 				'fill-color': '#00bfff',
@@ -61,7 +61,7 @@
 		});
 		map.addLayer({
 			id: `${name}_linelayer`,
-			source: `src_${name}`,
+			source: sourceName,
 			type: 'line',
 			paint: {
 				'line-color': 'white',
@@ -150,26 +150,54 @@
 </header>
 <div class="absolute bottom-10 left-2 rounded-lg bg-white p-2">
 	<button
-		class="bg-green-600 rounded p-2 m-2 flex"
+		class="m-2 flex rounded bg-green-600 p-2"
 		onclick={() => {
 			addTokyoDome();
-		}}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="fill-white p-1 bi bi-plus-lg" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-            </svg>
-            <span class="text-white">追加する</span>
-        </button
+		}}
 	>
-	<button
-		class="bg-red-600 rounded p-2 m-2 flex"
-		onclick={() => {
-		}}>
-            <svg class="fill-white p-1 bi bi-trash-fill" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"  viewBox="0 0 16 16">
-              <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-            </svg>
-            <span class="text-white">すべて削除する</span>
-        </button
-	>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			fill="currentColor"
+			class="bi bi-plus-lg fill-white p-1"
+			viewBox="0 0 16 16"
+		>
+			<path
+				fill-rule="evenodd"
+				d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"
+			/>
+		</svg>
+		<span class="text-white">追加する</span>
+	</button>
+	<button class="m-2 flex rounded bg-red-600 p-2" onclick={() => {
+		if (typeof map === "undefined") return;
+		for (let i = index; 0 <= i; i--) {
+			if (typeof map.getLayer(`tokyodome${i}_linelayer`) !== "undefined") {
+				map.removeLayer(`tokyodome${i}_linelayer`)
+			}
+			if (typeof map.getLayer(`tokyodome${i}_filllayer`) !== "undefined") {
+				map.removeLayer(`tokyodome${i}_filllayer`)
+			}
+			if (typeof map.getSource(`tokyodome${i}_src`) !== "undefined") {
+				map.removeSource(`tokyodome${i}_src`)
+			}
+		}
+	}}>
+		<svg
+			class="bi bi-trash-fill fill-white p-1"
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			fill="currentColor"
+			viewBox="0 0 16 16"
+		>
+			<path
+				d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"
+			/>
+		</svg>
+		<span class="text-white">すべて削除する</span>
+	</button>
 </div>
 
 <svelte:head>
