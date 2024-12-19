@@ -115,7 +115,7 @@
 		map.getCanvas().style.cursor = '';
 		draggedPolygon = undefined;
 	};
-	const title = 'tokyodome-scaler';
+	const title = 'tokyodome scaler';
 </script>
 
 <div class="fixed bottom-0 top-14">
@@ -134,7 +134,7 @@
 <header>
 	<div class="flex justify-between p-4 dark:bg-slate-800">
 		<h1>
-			<a href="/" class="hover:underline dark:text-neutral-200">東京ドーム単位系</a>
+			<a href="/" class="hover:underline dark:text-neutral-200">{title}</a>
 		</h1>
 		<nav class="flex space-x-4">
 			<a
@@ -204,7 +204,7 @@
 	<title>{title}</title>
 	<meta name="og:title" content={title} />
 	<meta name="og:type" content="website" />
-	<meta name="og:url" content={base} />
+	<meta name="og:url" content={`https://tokyodome-scaler.pages.dev/${base}`} />
 	<meta name="og:locale" content="ja-JP" />
 	<meta name="og:description" content="そこのお前！東京ドーム1個の面積は東京ドーム1個分だぜ！" />
 	<meta name="twitter:title" content={title} />
