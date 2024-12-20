@@ -121,7 +121,7 @@
 <div class="fixed bottom-0 top-14">
 	<MapLibre
 		class="h-full w-screen"
-		style="https://tile.openstreetmap.jp/styles/osm-bright-ja/style.json"
+		style="https://tile.openstreetmap.jp/styles/openmaptiles/style.json"
 		zoom={15}
 		center={{ lng: 139.751965, lat: 35.705514 }}
 		bind:map
