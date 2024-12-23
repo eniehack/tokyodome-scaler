@@ -71,10 +71,13 @@
 		map.on('mousedown', fillLayerName, fillLayerOnMouseDown);
 		map.on('mouseup', fillLayerName, fillLayerOnMouseUp);
 		map.on('mousemove', fillLayerName, fillLayerOnMouseMove);
+		map.on('touchstart', fillLayerName, fillLayerOnMouseDown);
+		map.on('touchend', fillLayerName, fillLayerOnMouseUp);
+		map.on('touchmove', fillLayerName, fillLayerOnMouseMove);
 		map.on('click', fillLayerName, () => console.log(fillLayerName));
 		index++;
 	};
-	const fillLayerOnMouseDown = (e: MapLayerMouseEvent) => {
+	const fillLayerOnMouseDown = (e: MapLayerMouseEvent | MapLayerTouchEvent) => {
 		if (typeof map === 'undefined' || typeof e.features === 'undefined' || e.features.length == 0)
 			return;
 		map.getCanvas().style.cursor = 'grabbing';
@@ -83,7 +86,7 @@
 		draggingStartPoint = e.lngLat;
 		draggedPolygon = e.features[0];
 	};
-	const fillLayerOnMouseMove = (e: MapLayerMouseEvent) => {
+	const fillLayerOnMouseMove = (e: MapLayerMouseEvent | MapLayerTouchEvent) => {
 		if (
 			!dragging ||
 			typeof draggedPolygon === 'undefined' ||
