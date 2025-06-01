@@ -5,41 +5,57 @@
 	import { cloneDeep } from 'es-toolkit';
 	import type { Polygon } from 'geojson';
 	import { center } from '@turf/center';
+	import { type Target, getTargetPath } from '$lib/target';
+	import { page } from "$app/state";
 
 	let dragging = $state(false);
 	let draggingStartPoint = $state<ml.LngLat>();
 	let draggedPolygon = $state.raw<ml.MapGeoJSONFeature>();
 	let map = $state<ml.Map>();
-	let tokyoDome = $state<GeoJSON.FeatureCollection<Polygon>>();
-	let centeredTokyoDome = $state<GeoJSON.FeatureCollection<Polygon>>();
+	let centeredTargetFeature = $state<GeoJSON.FeatureCollection<Polygon>>();
 	let index = $state(0);
-	let targetSource = $state<string>();
-	const fetchTokyoDome = async (): Promise<GeoJSON.FeatureCollection<Polygon>> => {
-		const resp = await fetch(`${base}/tokyodome.json`);
+	let target = $state<Target>("tokyodome");
+	let targetFeature = $state<GeoJSON.FeatureCollection<Polygon>>();
+	const fetchTokyoDome = async (path: string): Promise<GeoJSON.FeatureCollection<Polygon>> => {
+		const resp = await fetch(`${base}/${path}`);
 		const json = await resp.json();
 		return json satisfies GeoJSON.FeatureCollection<Polygon>;
 	};
 	$effect(() => {
-		fetchTokyoDome()
+		const currentUrl = new URL(page.url)
+		currentUrl.searchParams.set('target', target)
+		history.replaceState(history.state, '', currentUrl)
+	});
+	$effect(() => {
+		const rawTarget = page.url.searchParams.get("target")
+		if (rawTarget === "tokyodome" || rawTarget === "vatican") {
+			target = rawTarget;
+		} else {
+			target = 'tokyodome';
+		}
+	});
+	$effect(() => {
+		fetchTokyoDome(getTargetPath(target))
 			.then((json) => {
-				tokyoDome = json;
+				targetFeature = json;
 				return json;
 			})
 			.then((json) => {
-				const tokyoDomeCenterPoint = center(json);
-				centeredTokyoDome = json;
-				centeredTokyoDome.features[0].geometry.coordinates[0] =
-					centeredTokyoDome.features[0].geometry.coordinates[0].map(([lng, lat]) => [
-						lng - tokyoDomeCenterPoint.geometry.coordinates[0],
-						lat - tokyoDomeCenterPoint.geometry.coordinates[1]
+				const targetFeatureCenterPoint = center(json);
+				centeredTargetFeature = json;
+				centeredTargetFeature.features[0].geometry.coordinates[0] =
+					centeredTargetFeature.features[0].geometry.coordinates[0].map(([lng, lat]) => [
+						lng - targetFeatureCenterPoint.geometry.coordinates[0],
+						lat - targetFeatureCenterPoint.geometry.coordinates[1]
 					]);
+					console.log('initialized')
 			});
 	});
 	const addTokyoDome = () => {
 		if (typeof map === 'undefined') return;
-		if (typeof centeredTokyoDome === 'undefined') return;
+		if (typeof centeredTargetFeature === 'undefined') return;
 		const mapCenter = map.getCenter();
-		const clonedCenteredTokyoDome = cloneDeep(centeredTokyoDome);
+		const clonedCenteredTokyoDome = cloneDeep(centeredTargetFeature);
 		clonedCenteredTokyoDome.features[0].geometry.coordinates[0] =
 			clonedCenteredTokyoDome.features[0].geometry.coordinates[0].map(([lng, lat]) => [
 				lng + mapCenter.lng,
@@ -173,6 +189,10 @@
 		</svg>
 		<span class="text-white">追加する</span>
 	</button>
+	<select class="m-2" bind:value={target}>
+		<option value="tokyodome">東京ドーム</option>
+		<option value="vatican">バチカン市国</option>
+	</select>
 	<button class="m-2 flex rounded bg-red-600 p-2" onclick={() => {
 		if (typeof map === "undefined") return;
 		for (let i = index; 0 <= i; i--) {
