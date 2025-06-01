@@ -5,8 +5,8 @@
 	import { cloneDeep } from 'es-toolkit';
 	import type { Polygon } from 'geojson';
 	import { center } from '@turf/center';
-	import { type Target, getTargetPath } from '$lib/target';
-	import { page } from "$app/state";
+	import { targets, getTargetPath } from '$lib/target';
+	import { page } from '$app/state';
 
 	let dragging = $state(false);
 	let draggingStartPoint = $state<ml.LngLat>();
@@ -14,7 +14,7 @@
 	let map = $state<ml.Map>();
 	let centeredTargetFeature = $state<GeoJSON.FeatureCollection<Polygon>>();
 	let index = $state(0);
-	let target = $state<Target>("tokyodome");
+	let currentTarget = $state<string>('tokyodome');
 	let targetFeature = $state<GeoJSON.FeatureCollection<Polygon>>();
 	const fetchTokyoDome = async (path: string): Promise<GeoJSON.FeatureCollection<Polygon>> => {
 		const resp = await fetch(`${base}/${path}`);
@@ -22,20 +22,20 @@
 		return json satisfies GeoJSON.FeatureCollection<Polygon>;
 	};
 	$effect(() => {
-		const currentUrl = new URL(page.url)
-		currentUrl.searchParams.set('target', target)
-		history.replaceState(history.state, '', currentUrl)
+		const currentUrl = new URL(page.url);
+		currentUrl.searchParams.set('target', currentTarget);
+		history.replaceState(history.state, '', currentUrl);
 	});
 	$effect(() => {
-		const rawTarget = page.url.searchParams.get("target")
-		if (rawTarget === "tokyodome" || rawTarget === "vatican") {
-			target = rawTarget;
+		const rawTarget = page.url.searchParams.get('target');
+		if (rawTarget === 'tokyodome' || rawTarget === 'vatican') {
+			currentTarget = rawTarget;
 		} else {
-			target = 'tokyodome';
+			currentTarget = 'tokyodome';
 		}
 	});
 	$effect(() => {
-		fetchTokyoDome(getTargetPath(target))
+		fetchTokyoDome(getTargetPath(currentTarget).src)
 			.then((json) => {
 				targetFeature = json;
 				return json;
@@ -48,7 +48,7 @@
 						lng - targetFeatureCenterPoint.geometry.coordinates[0],
 						lat - targetFeatureCenterPoint.geometry.coordinates[1]
 					]);
-					console.log('initialized')
+				console.log('initialized');
 			});
 	});
 	const addTokyoDome = () => {
@@ -168,6 +168,11 @@
 	</div>
 </header>
 <div class="absolute bottom-10 left-2 rounded-lg bg-white p-2">
+	<select class="m-2" bind:value={currentTarget}>
+		{#each targets as t}
+			<option value={t.id}>{t.name}</option>
+		{/each}
+	</select>
 	<button
 		class="m-2 flex rounded bg-green-600 p-2"
 		onclick={() => {
@@ -189,24 +194,23 @@
 		</svg>
 		<span class="text-white">追加する</span>
 	</button>
-	<select class="m-2" bind:value={target}>
-		<option value="tokyodome">東京ドーム</option>
-		<option value="vatican">バチカン市国</option>
-	</select>
-	<button class="m-2 flex rounded bg-red-600 p-2" onclick={() => {
-		if (typeof map === "undefined") return;
-		for (let i = index; 0 <= i; i--) {
-			if (typeof map.getLayer(`tokyodome${i}_linelayer`) !== "undefined") {
-				map.removeLayer(`tokyodome${i}_linelayer`)
+	<button
+		class="m-2 flex rounded bg-red-600 p-2"
+		onclick={() => {
+			if (typeof map === 'undefined') return;
+			for (let i = index; 0 <= i; i--) {
+				if (typeof map.getLayer(`tokyodome${i}_linelayer`) !== 'undefined') {
+					map.removeLayer(`tokyodome${i}_linelayer`);
+				}
+				if (typeof map.getLayer(`tokyodome${i}_filllayer`) !== 'undefined') {
+					map.removeLayer(`tokyodome${i}_filllayer`);
+				}
+				if (typeof map.getSource(`tokyodome${i}_src`) !== 'undefined') {
+					map.removeSource(`tokyodome${i}_src`);
+				}
 			}
-			if (typeof map.getLayer(`tokyodome${i}_filllayer`) !== "undefined") {
-				map.removeLayer(`tokyodome${i}_filllayer`)
-			}
-			if (typeof map.getSource(`tokyodome${i}_src`) !== "undefined") {
-				map.removeSource(`tokyodome${i}_src`)
-			}
-		}
-	}}>
+		}}
+	>
 		<svg
 			class="bi bi-trash-fill fill-white p-1"
 			xmlns="http://www.w3.org/2000/svg"
