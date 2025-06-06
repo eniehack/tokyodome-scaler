@@ -7,6 +7,7 @@
 	import { center } from '@turf/center';
 	import { targets, getTargetPath } from '$lib/target';
 	import { page } from '$app/state';
+	import { onDestroy } from 'svelte';
 
 	let dragging = $state(false);
 	let draggingStartPoint = $state<ml.LngLat>();
@@ -16,6 +17,8 @@
 	let index = $state(0);
 	let currentTarget = $state<string>('tokyodome');
 	let targetFeature = $state<GeoJSON.FeatureCollection<Polygon>>();
+	let animationId = $state<number | null>(null);
+
 	const fetchTokyoDome = async (path: string): Promise<GeoJSON.FeatureCollection<Polygon>> => {
 		const resp = await fetch(`${base}/${path}`);
 		const json = await resp.json();
@@ -101,7 +104,18 @@
 		map.dragPan.disable();
 		draggingStartPoint = e.lngLat;
 		draggedPolygon = e.features[0];
+		requestAnimationFrame(refreshPolygonOnDrag)
 	};
+	const refreshPolygonOnDrag = () => {
+		if (!map || !draggedPolygon) return;
+		const src = map.getSource(draggedPolygon.properties['index']);
+		if (typeof src === 'undefined') return;
+		src.setData({
+			type: 'FeatureCollection',
+			features: [draggedPolygon]
+		});
+		requestAnimationFrame(refreshPolygonOnDrag);
+	}
 	const fillLayerOnMouseMove = (e: MapLayerMouseEvent | MapLayerTouchEvent) => {
 		if (
 			!dragging ||
@@ -118,13 +132,6 @@
 		]);
 		draggingStartPoint = e.lngLat;
 		draggedPolygon.geometry.coordinates[0] = updatedCoord;
-		const src = map.getSource(draggedPolygon.properties['index']);
-		if (typeof src === 'undefined') return;
-		src.setData({
-			type: 'FeatureCollection',
-			features: [draggedPolygon]
-		});
-		return;
 	};
 	const fillLayerOnMouseUp = () => {
 		if (!dragging) return;
@@ -134,6 +141,12 @@
 		map.getCanvas().style.cursor = '';
 		draggedPolygon = undefined;
 	};
+	onDestroy(() => {
+		if (map) map.remove();
+		if (animationId) {
+			cancelAnimationFrame(animationId);
+		}
+	})
 	const title = 'tokyodome scaler';
 </script>
 
