@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import ml, { type MapLayerMouseEvent } from 'maplibre-gl';
+	import maplibregl, { type MapLayerMouseEvent, type MapLayerTouchEvent } from 'maplibre-gl';
 	import { MapLibre, NavigationControl, ScaleControl, GeolocateControl } from 'svelte-maplibre-gl';
 	import { cloneDeep } from 'es-toolkit';
 	import type { Polygon } from 'geojson';
@@ -10,9 +10,9 @@
 	import { onDestroy } from 'svelte';
 
 	let dragging = $state(false);
-	let draggingStartPoint = $state<ml.LngLat>();
-	let draggedPolygon = $state.raw<ml.MapGeoJSONFeature>();
-	let map = $state<ml.Map>();
+	let draggingStartPoint = $state<maplibregl.LngLat>();
+	let draggedPolygon = $state.raw<maplibregl.MapGeoJSONFeature>();
+	let map = $state<maplibregl.Map>();
 	let centeredTargetFeature = $state<GeoJSON.FeatureCollection<Polygon>>();
 	let index = $state(0);
 	let currentTarget = $state<string>('tokyodome');
