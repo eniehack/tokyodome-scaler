@@ -3,7 +3,7 @@
 	import maplibregl, { type MapLayerMouseEvent, type MapLayerTouchEvent } from 'maplibre-gl';
 	import { MapLibre, NavigationControl, ScaleControl, GeolocateControl } from 'svelte-maplibre-gl';
 	import { cloneDeep } from 'es-toolkit';
-	import type { Polygon } from 'geojson';
+	import type { Polygon, FeatureCollection } from 'geojson';
 	import { center } from '@turf/center';
 	import { targets, getTargetPath } from '$lib/target';
 	import { page } from '$app/state';
@@ -13,16 +13,16 @@
 	let draggingStartPoint = $state<maplibregl.LngLat>();
 	let draggedPolygon = $state.raw<maplibregl.MapGeoJSONFeature>();
 	let map = $state<maplibregl.Map>();
-	let centeredTargetFeature = $state<GeoJSON.FeatureCollection<Polygon>>();
+	let centeredTargetFeature = $state<FeatureCollection<Polygon>>();
 	let index = $state(0);
 	let currentTarget = $state<string>('tokyodome');
-	let targetFeature = $state<GeoJSON.FeatureCollection<Polygon>>();
+	let targetFeature = $state<FeatureCollection<Polygon>>();
 	let animationId = $state<number | null>(null);
 
-	const fetchTokyoDome = async (path: string): Promise<GeoJSON.FeatureCollection<Polygon>> => {
+	const fetchTokyoDome = async (path: string): Promise<FeatureCollection<Polygon>> => {
 		const resp = await fetch(`${base}/${path}`);
 		const json = await resp.json();
-		return json satisfies GeoJSON.FeatureCollection<Polygon>;
+		return json satisfies FeatureCollection<Polygon>;
 	};
 	$effect(() => {
 		const currentUrl = new URL(page.url);
@@ -104,7 +104,7 @@
 		map.dragPan.disable();
 		draggingStartPoint = e.lngLat;
 		draggedPolygon = e.features[0];
-		requestAnimationFrame(refreshPolygonOnDrag)
+		requestAnimationFrame(refreshPolygonOnDrag);
 	};
 	const refreshPolygonOnDrag = () => {
 		if (!map || !draggedPolygon) return;
@@ -115,7 +115,7 @@
 			features: [draggedPolygon]
 		});
 		requestAnimationFrame(refreshPolygonOnDrag);
-	}
+	};
 	const fillLayerOnMouseMove = (e: MapLayerMouseEvent | MapLayerTouchEvent) => {
 		if (
 			!dragging ||
@@ -146,7 +146,7 @@
 		if (animationId) {
 			cancelAnimationFrame(animationId);
 		}
-	})
+	});
 	const title = 'tokyodome scaler';
 </script>
 
