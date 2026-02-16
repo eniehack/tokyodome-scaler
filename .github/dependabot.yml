@@ -1,0 +1,43 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps(npm)"
+    labels:
+      - "dependencies"
+    open-pull-requests-limit: 5
+    groups:
+      patch-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "patch"
+        exclude-patterns:
+          - "globals"
+          - "*eslint*"
+          - "*prettier*"
+          - "@types/*"
+
+      minor-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+        exclude-patterns:
+          - "globals"
+          - "*eslint*"
+          - "*prettier*"
+          - "@types/*"
+
+      dev-tools:
+        patterns:
+          - "globals"
+          - "*prettier*"
+          - "*eslint*"
+          - "@types/*"
+        update-types:
+          - "minor"
+          - "patch"
