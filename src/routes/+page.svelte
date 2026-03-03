@@ -187,7 +187,7 @@
 		{/each}
 	</select>
 	<button
-		class="m-2 flex rounded bg-green-600 p-2"
+		class="m-2 flex rounded-sm bg-green-600 p-2"
 		onclick={() => {
 			addTokyoDome();
 		}}
@@ -208,7 +208,7 @@
 		<span class="text-white">追加する</span>
 	</button>
 	<button
-		class="m-2 flex rounded bg-red-600 p-2"
+		class="m-2 flex rounded-sm bg-red-600 p-2"
 		onclick={() => {
 			if (typeof map === 'undefined') return;
 			for (let i = index; 0 <= i; i--) {
