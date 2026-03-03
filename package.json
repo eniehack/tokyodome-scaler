@@ -15,8 +15,8 @@
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
 		"@sveltejs/adapter-auto": "^3.3.1",
-		"@sveltejs/kit": "^2.21.1",
-		"@sveltejs/vite-plugin-svelte": "^5.0.3",
+		"@sveltejs/kit": "^2.53.4",
+		"@sveltejs/vite-plugin-svelte": "^6.2.4",
 		"@tailwindcss/vite": "^4.2.1",
 		"@turf/center": "^7.2.0",
 		"@turf/helpers": "^7.2.0",
@@ -36,7 +36,7 @@
 		"tailwindcss": "^4.2.1",
 		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.56.1",
-		"vite": "^6.3.5"
+		"vite": "^7.3.1"
 	},
 	"dependencies": {
 		"@tailwindcss/typography": "^0.5.16"
