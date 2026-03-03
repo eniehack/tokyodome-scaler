@@ -4,7 +4,7 @@ import svelte from 'eslint-plugin-svelte';
 import globals from 'globals';
 import ts from 'typescript-eslint';
 
-export default ts.config(
+export default [
 	{
 		ignores: ['.svelte-kit/**/*']
 	},
@@ -29,4 +29,4 @@ export default ts.config(
 	},
 	prettier,
 	...svelte.configs['flat/prettier']
-);
+];
