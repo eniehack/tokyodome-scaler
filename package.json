@@ -17,7 +17,7 @@
 		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/kit": "^2.53.4",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
-		"@tailwindcss/vite": "^4.2.1",
+		"@tailwindcss/vite": "^4.2.2",
 		"@turf/center": "^7.2.0",
 		"@turf/helpers": "^7.2.0",
 		"@types/geojson": "^7946.0.16",
@@ -33,12 +33,12 @@
 		"svelte": "^5.53.9",
 		"svelte-check": "^4.4.5",
 		"svelte-maplibre-gl": "^1.0.3",
-		"tailwindcss": "^4.2.1",
+		"tailwindcss": "^4.2.2",
 		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.56.1",
 		"vite": "^8.0.10"
 	},
 	"dependencies": {
-		"@tailwindcss/typography": "^0.5.16"
+		"@tailwindcss/typography": "^0.5.19"
 	}
 }
