@@ -18,7 +18,7 @@
 		"@sveltejs/kit": "^2.58.0",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
 		"@tailwindcss/vite": "^4.2.2",
-		"@turf/center": "^7.2.0",
+		"@turf/center": "^7.3.5",
 		"@turf/helpers": "^7.2.0",
 		"@types/geojson": "^7946.0.16",
 		"es-toolkit": "^1.38.0",

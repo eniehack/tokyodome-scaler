@@ -28,8 +28,8 @@ importers:
         specifier: ^4.2.2
         version: 4.2.4(vite@8.0.10(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.0))
       '@turf/center':
-        specifier: ^7.2.0
-        version: 7.2.0
+        specifier: ^7.3.5
+        version: 7.3.5
       '@turf/helpers':
         specifier: ^7.2.0
         version: 7.2.0
@@ -595,17 +595,20 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7 || ^8
 
-  '@turf/bbox@7.2.0':
-    resolution: {integrity: sha512-wzHEjCXlYZiDludDbXkpBSmv8Zu6tPGLmJ1sXQ6qDwpLE1Ew3mcWqt8AaxfTP5QwDNQa3sf2vvgTEzNbPQkCiA==}
+  '@turf/bbox@7.3.5':
+    resolution: {integrity: sha512-oG1ya/HtBjAIg4TimbWx+nOYPbY0bCvt82Bq8tm6sBw3qqtbOyRSfDz79Sq90TnH7DXJprJ1qnVGKNtZ6jemfw==}
 
-  '@turf/center@7.2.0':
-    resolution: {integrity: sha512-UTNp9abQ2kuyRg5gCIGDNwwEQeF3NbpYsd1Q0KW9lwWuzbLVNn0sOwbxjpNF4J2HtMOs5YVOcqNvYyuoa2XrXw==}
+  '@turf/center@7.3.5':
+    resolution: {integrity: sha512-eub5/Kfdmn89ZqwCONHI7astmTDEtN5M6+JfOkgoSyhKKFhUJYNxUyH1F/vCtIP7j1K369Vs4L9TYiuGapvIKQ==}
 
   '@turf/helpers@7.2.0':
     resolution: {integrity: sha512-cXo7bKNZoa7aC7ydLmUR02oB3IgDe7MxiPuRz3cCtYQHn+BJ6h1tihmamYDWWUlPHgSNF0i3ATc4WmDECZafKw==}
 
-  '@turf/meta@7.2.0':
-    resolution: {integrity: sha512-igzTdHsQc8TV1RhPuOLVo74Px/hyPrVgVOTgjWQZzt3J9BVseCdpfY/0cJBdlSRI4S/yTmmHl7gAqjhpYH5Yaw==}
+  '@turf/helpers@7.3.5':
+    resolution: {integrity: sha512-E/NMGV5MwbjjP7AJXBtsanC3yY8N2MQ87IGdIgkB2ji5AtBpwnH4L3gEqpYN4RlCJJWbLbzO91BbKv2waUd0eg==}
+
+  '@turf/meta@7.3.5':
+    resolution: {integrity: sha512-r+ohqxoyqeigFB0oFrQx/YEHIkOKqcKpCjvZkvZs7Tkv+IFco5MezAd2zd4rzK+0DfFgDP3KpJc7HqrYjvEjhg==}
 
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
@@ -1892,17 +1895,17 @@ snapshots:
       tailwindcss: 4.2.4
       vite: 8.0.10(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.0)
 
-  '@turf/bbox@7.2.0':
+  '@turf/bbox@7.3.5':
     dependencies:
-      '@turf/helpers': 7.2.0
-      '@turf/meta': 7.2.0
+      '@turf/helpers': 7.3.5
+      '@turf/meta': 7.3.5
       '@types/geojson': 7946.0.16
       tslib: 2.8.1
 
-  '@turf/center@7.2.0':
+  '@turf/center@7.3.5':
     dependencies:
-      '@turf/bbox': 7.2.0
-      '@turf/helpers': 7.2.0
+      '@turf/bbox': 7.3.5
+      '@turf/helpers': 7.3.5
       '@types/geojson': 7946.0.16
       tslib: 2.8.1
 
@@ -1911,10 +1914,16 @@ snapshots:
       '@types/geojson': 7946.0.16
       tslib: 2.8.1
 
-  '@turf/meta@7.2.0':
+  '@turf/helpers@7.3.5':
     dependencies:
-      '@turf/helpers': 7.2.0
       '@types/geojson': 7946.0.16
+      tslib: 2.8.1
+
+  '@turf/meta@7.3.5':
+    dependencies:
+      '@turf/helpers': 7.3.5
+      '@types/geojson': 7946.0.16
+      tslib: 2.8.1
 
   '@tybys/wasm-util@0.10.1':
     dependencies:
