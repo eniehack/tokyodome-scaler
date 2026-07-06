@@ -39,6 +39,6 @@
 		"vite": "^8.0.10"
 	},
 	"dependencies": {
-		"@tailwindcss/typography": "^0.5.19"
+		"@tailwindcss/typography": "^0.5.20"
 	}
 }
